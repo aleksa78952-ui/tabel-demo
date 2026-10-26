@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light dark}body{margin:0}img{max-width:100%}</style>
+<title>Демо «Табель»</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+  /* Витрина демо: тёмно-синяя лента сверху, как боковая панель самого приложения, ниже — светлый лист с карточками ролей и снимками */
+  :root{
+    --bg:#f4f6fb; --fg:#172033; --muted:#5b6478; --line:#d9deea;
+    --card:#ffffff; --accent:#2457d6; --accent-fg:#ffffff; --band:#0f1b33; --band-fg:#eef2fb; --band-muted:#aab6d3;
+    --demo:#f0a92a; --demo-fg:#1a1200; --code-bg:#eceff7;
+    --display:"Manrope","Segoe UI",system-ui,sans-serif; --body:"PT Sans","Segoe UI",system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --bg:#0b1220; --fg:#e6eaf4; --muted:#a3adc4; --line:#26314a; --card:#131c30; --accent:#7ea3ff; --accent-fg:#06112b;
+    --band:#070d1a; --band-fg:#eef2fb; --band-muted:#8f9cbd; --demo:#f0b545; --demo-fg:#1a1200; --code-bg:#1b2540; color-scheme:dark } }
+  :root[data-theme="dark"]{
+    --bg:#0b1220; --fg:#e6eaf4; --muted:#a3adc4; --line:#26314a; --card:#131c30; --accent:#7ea3ff; --accent-fg:#06112b;
+    --band:#070d1a; --band-fg:#eef2fb; --band-muted:#8f9cbd; --demo:#f0b545; --demo-fg:#1a1200; --code-bg:#1b2540; color-scheme:dark }
+  body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.5;margin:0}
+  *{box-sizing:border-box}
+  h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+  h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.01em}
+  h2{font-size:clamp(22px,3vw,28px);font-weight:700}
+  h3{font-size:18px;font-weight:700}
+  p{margin:0}
+  a{color:var(--accent)}
+  .wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .band{background:var(--band);color:var(--band-fg)}
+  .band .wrap{padding-block:40px 44px;display:grid;gap:22px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--demo);color:var(--demo-fg);padding:6px 12px;border-radius:999px;width:max-content}
+  .lead{font-size:19px;color:var(--band-muted);max-width:62ch}
+  .cta{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:17px;background:var(--accent);color:var(--accent-fg);padding:14px 22px;border-radius:12px;text-decoration:none;border:0}
+  .btn:focus-visible,.role:focus-visible{outline:3px solid var(--demo);outline-offset:3px}
+  .cta small{color:var(--band-muted);font-size:14px}
+  section .wrap{padding-block:36px;display:grid;gap:18px}
+  .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .role{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:8px;min-width:0}
+  .role .who{font-family:var(--display);font-weight:700;font-size:18px}
+  .role .what{color:var(--muted);font-size:15px}
+  .cred{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:15px}
+  code{font-family:ui-monospace,Consolas,"Cascadia Mono",monospace;font-size:15px;background:var(--code-bg);padding:2px 7px;border-radius:6px;color:var(--fg)}
+  .others{color:var(--muted);font-size:15px;line-height:1.7}
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  figure{margin:0;display:grid;gap:8px;min-width:0}
+  figure img{width:100%;max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);display:block}
+  figcaption{font-size:15px;color:var(--muted)}
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px 28px;padding:0;margin:0;list-style:none}
+  .features li{padding-left:22px;position:relative;min-width:0}
+  .features li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:10px;border-radius:3px;background:var(--accent)}
+  .features b{font-family:var(--display)}
+  .note{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--demo);border-radius:12px;padding:16px 18px;display:grid;gap:8px}
+  .tech{color:var(--muted);font-size:15px}
+  footer .wrap{padding-block:10px 40px;color:var(--muted);font-size:14px}
+  @media (prefers-reduced-motion:no-preference){ .btn{transition:transform .15s ease} .btn:hover{transform:translateY(-1px)} }
+</style>
+</head>
+<body>
+
+
+<header class="band">
+  <div class="wrap">
+    <span class="eyebrow">Демо-версия · все данные вымышленные</span>
+    <h1>Табель учёта рабочего времени</h1>
+    <p class="lead">Веб-приложение для производства: руководители цехов и отделов ведут табель своего подразделения, отдел кадров видит все подразделения, реестр сотрудников, причины отсутствия и сводную с выгрузкой в Excel.</p>
+    <div class="cta">
+      <a class="btn" href="app.html" target="_blank" rel="noopener">Открыть демо-приложение →</a>
+      <small>Откроется в новой вкладке. Правки сохраняются только в вашем браузере, кнопка «Сбросить демо» внизу слева возвращает исходные данные.</small>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Учётные записи для входа</h2>
+    <p>Пароль у всех одинаковый: <code>demo</code>. На экране входа роли можно выбрать одной кнопкой.</p>
+    <div class="roles">
+      <div class="role"><div class="who">Отдел кадров</div><div class="what">Полный доступ: табели всех подразделений, штат, причины отсутствия, сводная, руководители и их логины.</div><div class="cred">логин <code>admin</code> · пароль <code>demo</code></div></div>
+      <div class="role"><div class="who">Директор</div><div class="what">Просмотр всех подразделений и сводной без права редактирования.</div><div class="cred">логин <code>director</code> · пароль <code>demo</code></div></div>
+      <div class="role"><div class="who">Руководитель подразделения</div><div class="what">Только свой цех: часы по дням, сверхурочные, уходы, график, выгрузка табеля в Excel.</div><div class="cred">логин <code>grachev</code> · пароль <code>demo</code></div></div>
+    </div>
+    <p class="others">Другие руководители (пароль тот же): <code>snegireva</code> сборочный цех · <code>shcheglov</code> ОТК · <code>ryabinina</code> логистика · <code>dubrovin</code> инструментальный участок · <code>klenov</code> энергослужба · <code>yaseneva</code> бухгалтерия · <code>topolev</code> отдел продаж.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Как это выглядит</h2>
+    <div class="shots">
+      <figure><img src="snimok-tabel.png" alt="Экран табеля: строки сотрудников с часами по дням месяца, строки норм по графикам, панель причин отсутствия и калькулятор" width="1280" height="800"><figcaption>Табель руководителя: часы и коды по дням, нормы по трём графикам, сверхурочные и уходы отдельными строками.</figcaption></figure>
+      <figure><img src="snimok-rukovoditeli.png" alt="Экран руководителей подразделений: карточки с названием подразделения, именем руководителя, логином и временем последнего входа" width="1280" height="800"><figcaption>Руководители подразделений: карточки с логинами, кто сейчас в системе и когда заходил последний раз.</figcaption></figure>
+      <figure><img src="snimok-svodnaya.png" alt="Экран сводной по всем сотрудникам с фильтрами и итогами" width="1280" height="800"><figcaption>Сводная по всем сотрудникам: фильтры по подразделению, профессии, категории; выгрузка и ввоз из Excel.</figcaption></figure>
+      <figure><img src="snimok-prichiny.png" alt="Экран причин отсутствия: реестр записей с датами, кодом и руководителем" width="1280" height="800"><figcaption>Причины отсутствия: реестр с датами и кодами, который сам проставляет отметки в табель.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Что умеет приложение</h2>
+    <ul class="features">
+      <li><b>Табель по дням</b> с кодами присутствия и отсутствия: 8/12/16, ОТ, Б, ДО, К, ОЖ, ПТД, Н; отдельные строки сверхурочных и уходов.</li>
+      <li><b>Графики работы</b>: нормы при 40 и 39 часах в неделю, сменные графики, итог часов за месяц, ввоз графика из Excel.</li>
+      <li><b>Причины отсутствия</b>: реестр с датами начала и конца, отметки в табель ставятся автоматически; блокировка строки, которую правит другой сотрудник.</li>
+      <li><b>Штат</b>: единый реестр сотрудников с должностью, категорией и подразделением; увольнение с ведением истории по месяцам.</li>
+      <li><b>Сводная по всем</b> с фильтрами и итогами, выгрузка и ввоз из Excel, шаблоны для заполнения.</li>
+      <li><b>Роли и права</b>: отдел кадров, директор, руководитель подразделения; руководитель видит и правит только своё.</li>
+      <li><b>Автосохранение</b> с чтением записанного обратно, защита от одновременной правки одного табеля с разных компьютеров.</li>
+      <li><b>Кто в системе</b>: пульс присутствия, журнал посещений, принудительное обновление при выходе новой версии, баннер технических работ.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="note">
+      <h3>Как устроено это демо</h3>
+      <p>Это тот же интерфейс, что и в рабочей версии. Вместо сервера и базы данных в страницу встроена заглушка: при первом открытии она создаёт вымышленных сотрудников и заполненные табели за последние месяцы и хранит их в браузере смотрящего. Ничего никуда не отправляется, каждый смотрящий видит свою копию.</p>
+      <p class="tech">В рабочей версии: клиент на чистом JavaScript без фреймворков, сервер PocketBase (SQLite) с серверными проверками записи, nginx, автоматические проверки в браузере.</p>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">Демо собрано из рабочей сборки приложения; все имена, подразделения и часы в нём сгенерированы и не относятся к реальным людям.</div></footer>
+
+</body>
+</html>
